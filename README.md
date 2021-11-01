@@ -16,5 +16,5 @@ git add .
 git commit -am "commit message"
 git push heroku master
 git ps:scale web=1
-heroky logs --tail (to check if deployed, should say the app is "Up" and not "Crashed").
+heroku logs --tail (to check if deployed, should say the app is "Up" and not "Crashed").
 
