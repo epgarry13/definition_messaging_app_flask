@@ -3,10 +3,14 @@ from celery import Celery
 from celery.schedules import crontab
 from time import sleep
 from datatime import datetime, timedelta
-from twilio.twiml.messaging_response import MessagingResponse
+from twilio.rest import Client
 import firebase_admin
 from firebase_admin import credentials, firestore, initialize_app
 
+# TODO fill in twilio account info (os.environ)
+account_sid = ''
+auth_token = ''
+client = Client(account_sid, auth_token)
 
 app = Celery(
     'tasks', broker='amqps://bxrbsdmw:aFoX583lcV6MqY0Xh_Tevg2YPA-pEbOS@fish.rmq.cloudamqp.com/bxrbsdmw')
@@ -27,10 +31,15 @@ def reminder():
     for request in requests:
 
         # Send follow-up
-        resp = MessagingResponse()
         resp_message = "Hey don't forget! %s means %s." % (
             request['word'], request['definition'])
-        resp.message(resp_message)
+
+        # TODO Fill in phone number
+        message = client.messages.create(
+            body=resp_message,
+            from_='FILL THIS IN',
+            to=request['phone_number']
+        )
 
         # Make request as followed-up
         request['follow_up'] = True

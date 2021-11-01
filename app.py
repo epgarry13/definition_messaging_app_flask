@@ -1,11 +1,15 @@
 from flask import Flask, request, redirect, json, session, jsonify
-from twilio.twiml.messaging_response import MessagingResponse
+from twilio.rest import Client
 import firebase_admin
 from firebase_admin import credentials, firestore, initialize_app
 from flask_cors import CORS
 import datetime
 import uuid
 import requests
+
+account_sid = ''
+auth_token = ''
+client = Client(account_sid, auth_token)
 
 
 app = Flask(__name__)
